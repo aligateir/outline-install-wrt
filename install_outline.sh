@@ -30,6 +30,36 @@ wget https://github.com/xjasonlyu/tun2socks/releases/download/v2.6.0/tun2socks-l
         exit 1
    fi
 fi
+if file /tmp/tun2socks | grep -q "Zip archive"; then
+    echo "Downloaded file is a ZIP archive, extracting..."
+    
+    # Install unzip if not available
+    if ! command -v unzip >/dev/null 2>&1; then
+        echo "Installing unzip..."
+        opkg update >/dev/null 2>&1
+        opkg install unzip >/dev/null 2>&1
+    fi
+    
+    # Extract the archive
+    unzip -o /tmp/tun2socks -d /tmp/ >/dev/null 2>&1
+    
+    # Check if extraction was successful
+    if [ $? -eq 0 ] && [ -f "/tmp/tun2socks" ]; then
+        echo "Extraction successful"
+    else
+        # Try to find the binary after extraction
+        EXTRACTED_BINARY=$(find /tmp -name "tun2socks" -type f | head -1)
+        if [ -n "$EXTRACTED_BINARY" ] && [ -f "$EXTRACTED_BINARY" ]; then
+            echo "Found extracted binary: $EXTRACTED_BINARY"
+            mv "$EXTRACTED_BINARY" /tmp/tun2socks
+        else
+            echo "Extraction failed or binary not found in archive"
+            exit 1
+        fi
+    fi
+else
+    echo "Downloaded file is not a ZIP archive, using as-is"
+fi
 # Step 4: Check for tun2socks then move binary to /usr/bin
 if [ ! -f "/usr/bin/tun2socks" ]; then
 mv /tmp/tun2socks /usr/bin/
