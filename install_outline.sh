@@ -30,7 +30,7 @@ wget https://github.com/xjasonlyu/tun2socks/releases/download/v2.6.0/tun2socks-l
         exit 1
    fi
 fi
-if file /tmp/tun2socks | grep -q "Zip archive"; then
+if file /tmp/tun2socks* | grep -q "Zip archive"; then
     echo "Downloaded file is a ZIP archive, extracting..."
     
     # Install unzip if not available
