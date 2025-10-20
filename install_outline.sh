@@ -1,5 +1,6 @@
 #!/bin/sh
-# Outline scripted, xjasonlyu/tun2socks based installer for OpenWRT.
+# Outline scripted, xjasonlyu/tun2socks based installer for OpenWRT. 
+# Modified 20/10/2025
 # https://github.com/1andrevich/outline-install-wrt
 echo 'Starting Outline OpenWRT install script'
 
